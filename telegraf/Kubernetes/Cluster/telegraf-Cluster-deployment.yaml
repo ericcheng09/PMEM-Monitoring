@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegraf-cluster-deployment
+spec:
+  selector:
+    matchLabels:
+      app: telegraf-cluster
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: telegraf-cluster
+    spec:
+      serviceAccountName: "telegraf"
+      containers:
+        - image: telegraf:1.13-alpine
+          name: telegraf
+          volumeMounts:
+            - mountPath: /etc/telegraf/telegraf.conf
+              name: telegraf-cluster-config
+              subPath: telegraf.conf
+              readOnly: true
+          envFrom:
+            - secretRef:
+                name: telegraf-secrets
+          env:
+          - name: HOSTIP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+      volumes:
+        - name: telegraf-cluster-config
+          configMap:
+            name: telegraf-cluster-config

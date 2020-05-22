@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: telegraf-ds
+spec:
+  selector:
+    matchLabels:
+      app: telegraf
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: telegraf
+    spec:
+      serviceAccountName: "telegraf"
+      containers:
+        - image: telegraf:1.13-alpine
+          name: telegraf
+          volumeMounts:
+            - mountPath: /etc/telegraf/telegraf.conf
+              name: telegraf-config
+              subPath: telegraf.conf
+              readOnly: true
+          envFrom:
+            - secretRef:
+                name: telegraf-secrets
+          env:
+          - name: HOSTIP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+      volumes:
+        - name: telegraf-config
+          configMap:
+            name: telegraf-config

@@ -122,6 +122,9 @@ Add:
     telegraf  ALL=(ALL) NOPASSWD: ALL
 ```
 
+## Kubernetes and PMEM-CSI Setup
+For Kubernetes installation and PMEM-CSI setup, refer to [readme](https://github.com/ericcheng09/PMEM-Monitoring/blob/master/kubernetes/README.md) in /kubernetes.
+
 
 ## Telegraf Setup in Kubernetes
 Since k8s uses Role-Based Access Control(RBAC), so we need to create required resources first. All permissions related resources have been configured. Simply:
@@ -138,9 +141,7 @@ kubectl create -f /telegraf/kubernetes/Daemonset
 ```
 <span style="color:red">**Note:**</span>  Please modify telegraf-secrets.yaml file with your configurations, so that telegraf can connect to your database correctly. You can also modify config files to configure the telegraf.
 
-
 You can find descriptions about telegraf plugins [here](https://github.com/influxdata/telegraf).
-
 
 ## Reference
 * https://docs.influxdata.com/influxdb/v1.8/introduction/install/

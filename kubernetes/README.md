@@ -49,7 +49,7 @@ You can get this command during the initialization of master node.
 sudo kubeadm join 140.92.152.61:6443 --token wkry3m.fn4umk0u9ugmlfxz  \
     --discovery-token-ca-cert-hash sha256:2ae3a437401e230bfbe2b0022baa199fea03e39002f7c4f5f515a1c70f05b353
 ```
-**Note:**The token will expire after 24 hours 
+**Note:** The token will expire after 24 hours 
 
 **To generate new token:**
 ```

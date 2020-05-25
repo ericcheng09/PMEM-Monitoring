@@ -75,9 +75,8 @@ data:
       ## Multiple URLs can be specified for a single cluster, only ONE of the
       ## urls will be written to each interval.
       # urls = ["unix:///var/run/influxdb.sock"]
-      # urls = ["udp://127.0.0.1:8089"]
-      # urls = ["http://127.0.0.1:8086"]
-      urls = ["http://140.92.152.61:8086"]
+      urls = ["$INFLUXDB_URL"]
+
 
       ## The target database for metrics; will be created as needed.
       database = "$INFLUXDB_DB"

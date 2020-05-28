@@ -125,15 +125,35 @@ initContainers:
     ...
 ```
 
-After the creation of pvc, if pvcs show “Pending” statu. Try to reduce the size in the pvc configuration files. ([Issue](https://github.com/intel/pmem-csi/issues/107))
+After the creation of pvc, if pvcs show “Pending” statu. Try to reduce the size in the pvc configuration files. ([Issue 1](https://github.com/intel/pmem-csi/issues/107))
+
+If pvc still shows Pending([Issue 2](https://github.com/intel/pmem-csi/issues/655)):
+```
+$ pvscan
+  WARNING: Device for PV hRXLi7-TmYI-DlkR-AW0l-UNv2-EpPq-bRW0J2 not found or rejected by a filte
+  WARNING: Device for PV W8gi1y-Pyxh-GYfx-6ebv-1Gnn-0Zzx-svpuuJ not found or rejected by a filte
+  PV /dev/pmem0.1   VG ndbus0region0fsdax   lvm2 [<124.00 GiB / <116.00 GiB free]
+  PV [unknown]      VG ndbus0region0fsdax   lvm2 [1020.00 MiB / 1020.00 MiB free]
+  PV [unknown]      VG ndbus0region0fsdax   lvm2 [1020.00 MiB / 1020.00 MiB free]
+
+```
+Then, remove those unknown devices
+```
+vgreduce –removemissing <VG>
+$ vgreduce –removemissing ndbus0region0fsdax
+```
 
 
 
+**Check whether the node with pmem is labeled correctly:**
 ```
 kubectl get nodes --show-labels
-*check whether the node with pmem is labeled:
+```
+If labels are correct, it should show:
+```
 pmem-csi.intel.com/node=<NODE-NAME>,storage=pmem
 ```
+
 Create storage classes and pvc, then create pods to use volume.
 ```
 kubectl create -f deploy/kubernetes-1.17/pmem-storageclass-ext4.yaml

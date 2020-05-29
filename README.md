@@ -89,7 +89,7 @@ telegraf config > telegraf.conf
 ```
 
 **To use configured config file:**<br>
-Copy and paste the /telegraf/telegraf.config to /etc/telegraf.
+Copy and paste the /telegraf/telegraf.config to /etc/telegraf. (Please modify configuration in output plugin)
 
 **Note:**<br> One of telegraf plugins needs permission to access docker socket, you can either:<br>
 1. Run telegraf as root
